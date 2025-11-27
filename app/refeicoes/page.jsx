@@ -338,7 +338,7 @@ const MOCK_MEALS = [
 export default function Page() {
   return (
     // wrapper relativo (não necessário, mas mantém semântica)
-    <div className="min-h-screen p-6 bg-[#f3eef6] font-sans relative">
+    <div className="min-h-screen p-6 bg-[#f3eef6] rounded-lg font-sans relative">
       {/* ⬅️ NOVO COMPONENTE: ASIDE LATERAL FIXO (Substituindo o bloco <aside> original) */}
       <SecondarySidebar />
 

@@ -16,8 +16,8 @@ const BRAND = {
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
   // Card com border-left grosso para destacar o conteúdo
-  <div className="flex flex-col gap-2 p-5 bg-white rounded-lg shadow-md border-l-4 border-[#FFAE3C] hover:shadow-xl transition-shadow duration-300">
-    <Icon size={32} className="text-purple-700" />
+  <div className="flex flex-col gap-2 p-5 bg-white rounded-lg shadow-md border-l-4 border-[#fdec5a] hover:shadow-xl transition-shadow duration-300">
+    <Icon size={32} className="text-green-700" />
     <h3 className="text-lg font-bold" style={{ color: BRAND.primaryDark }}>{title}</h3>
     <p className="text-sm text-gray-700">{description}</p>
   </div>
@@ -26,7 +26,7 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 export default function Home() {
   return (
     // Garantindo que a tela tenha altura 100vh e sem scroll
-    <div className="flex flex-col items-center pt-12 lg:pt-20 font-sans bg-[#f3eef6] pb-10">
+    <div className="flex flex-col items-center pt-12 rounded-lg font-sans bg-[#f3eef6] pb-10">
 
       <main className="flex flex-col gap-16 items-center text-center max-w-5xl px-4 flex-grow">
 
@@ -42,19 +42,6 @@ export default function Home() {
               priority
             />
           </div>
-          {/* --- LOGO-- - */}
-          <Link
-            href="/"
-            className="relative w-[550px] h-[128px] cursor-pointer"
-          >
-            <Image
-              src="/logo-lentilha.png"
-              alt="Logo Lentilha"
-              fill
-              className="object-contain"
-              priority
-            />
-          </Link>
           <h1 className="text-4xl font-extrabold text-gray-800 max-w-3xl" style={{ color: BRAND.primaryDark }}>
             A solução para quantificar o verdadeiro impacto ambiental da sua alimentação!
           </h1>
@@ -85,7 +72,7 @@ export default function Home() {
         </div>
 
         {/* 3. CHAMADA À AÇÃO E ESTATÍSTICA CHAVE */}
-        <div className="w-full mt-4 flex flex-col items-center gap-6 p-6 rounded-xl border-2 border-[#FFAE3C] bg-white shadow-xl">
+        <div className="w-full mt-4 flex flex-col items-center gap-6 p-6 rounded-xl border-2 border-[#fdec5a] bg-white shadow-xl">
           <p className="text-lg font-semibold text-gray-700">
             O Brasil tem uma emissão de carbono por refeição diária muito maior que a meta global.
             <br />
@@ -95,7 +82,7 @@ export default function Home() {
           <Link href="/pesquisa">
             <Button
               className="h-12 px-8 text-lg font-bold flex items-center gap-2 transition-colors duration-300 hover:bg-[#60B46A]" // Hover mais claro
-              style={{ backgroundColor: BRAND.primary, color: 'white' }}
+              style={{ backgroundColor: BRAND.primary, color: 'white', cursor: 'pointer' }}
               variant="default" // Usando a variante padrão para o botão principal
             >
               <MdArrowForward size={24} />

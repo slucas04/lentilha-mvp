@@ -144,7 +144,7 @@ export default function Page() {
   const fmtM2 = (v) => `${Number(v).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} m²`;
 
   return (
-    <div className="min-h-full w-full font-sans bg-[#f3eef6] p-6">
+    <div className="min-h-full w-full font-sans bg-[#f3eef6] rounded-lg p-6">
       <div className="w-full flex flex-col lg:flex-row gap-6 items-start">
 
         {/* ⬅️ NOVO COMPONENTE FIXO */}
