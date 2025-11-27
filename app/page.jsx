@@ -92,7 +92,7 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Rodapé - Texto colado com o conteúdo acima */}
+      {/* Rodapé - Teexto colado com o conteúdo acima */}
       <footer className=" text-sm text-gray-500 mt-8 mb-4">
         &copy; 2025 LENTILHA. Trabalho de Conclusão de Curso (TCC), UNIFOR.
       </footer>
