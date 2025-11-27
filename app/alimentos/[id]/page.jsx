@@ -234,9 +234,9 @@ export default function AlimentoDetailPage({ params }) {
       ">
 
         {/* BOTÃO VOLTAR / NOVA PESQUISA */}
-        <Link href="/pesquisa" className="flex items-center gap-2 text-gray-700 hover:text-purple-700 transition-colors">
+        <Link href="/" className="flex items-center gap-2 text-gray-700 hover:text-purple-700 transition-colors">
           <ArrowLeft className="h-5 w-5" />
-          <span className="font-medium">Nova pesquisa...</span>
+          <span className="font-medium">Voltar</span>
         </Link>
 
         {/* BARRA DE PESQUISA (Autocomplete com Dropdown) */}

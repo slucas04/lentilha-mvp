@@ -1,101 +1,227 @@
+// app/pesquisa/page.jsx
+
 "use client";
+import React, { useState, useMemo } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { MdSearch } from "react-icons/md";
 
-import Image from "next/image";
-import Link from "next/link";
-import { MdOutlineScience, MdPublic, MdLayers, MdArrowForward } from "react-icons/md";
-// 💡 Supondo que você tenha um Button component acessível
-import { Button } from "../components/ui/button";
+// Importação sem a extensão '.js' (melhor compatibilidade)
+import { MOCK_DATA } from '../data/mock';
 
-const BRAND = {
-  primary: "#448040", // Verde Lentilha
-  primaryDark: "#146151",
-  accent: "#B4CF66",
-  mutedText: "#6b6b6b",
-  lightPurple: "#f3eef6"
+
+const removeAccents = (str) => {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
 
-const FeatureCard = ({ icon: Icon, title, description }) => (
-  // Card com border-left grosso para destacar o conteúdo
-  <div className="flex flex-col gap-2 p-5 bg-white rounded-lg shadow-md border-l-4 border-[#fdec5a] hover:shadow-xl transition-shadow duration-300">
-    <Icon size={32} className="text-green-700" />
-    <h3 className="text-lg font-bold" style={{ color: BRAND.primaryDark }}>{title}</h3>
-    <p className="text-sm text-gray-700">{description}</p>
-  </div>
-);
+// O componente SearchResultItem é mantido aqui
+const SearchResultItem = ({ nome, descricao, imagem, id }) => {
 
-export default function Home() {
+  // TRATAMENTO DE ERRO: Garante que nome e id sejam strings ou fallbacks
+  const safeNome = nome || 'item-indefinido';
+  const safeId = id || '0';
+
+  // ⚠️ CORREÇÃO DE ROTAS (404): Removemos o slug (safeNome.toLowerCase()...)
+  // para que a rota corresponda a app/alimentos/[id]/page.jsx
+  const safeHref = safeNome !== 'item-indefinido'
+    ? `/alimentos/${safeId}` // ⬅️ Apenas o ID é usado aqui
+    : '#';
+
   return (
-    // Garantindo que a tela tenha altura 100vh e sem scroll
-    <div className="flex flex-col items-center pt-12 rounded-lg font-sans bg-[#f3eef6] pb-10">
+    <Link
+      href={safeHref}
+      className="
+        flex items-center justify-between 
+        p-3.5 mx-2 
+        bg-[#ece0f0] 
+        rounded-xl 
+        cursor-pointer 
+        hover:bg-[#f3e9f8] 
+        transition-colors
+        border border-transparent 
+        focus-within:border-purple-500
+        h-[100px]
+      "
+    >
+      <div className="flex items-center h-full">
 
-      <main className="flex flex-col gap-16 items-center text-center max-w-5xl px-4 flex-grow">
-
-        {/* 1. SEÇÃO DE HERO: LOGO E MISSÃO PRINCIPAL */}
-        <div className="flex flex-col items-center gap-6 mt-16">
-          <div className="relative w-96 h-24">
-            {/* Imagem do logo Lentilha */}
+        {/* Imagem/Ícone do Alimento: Largura e altura padronizadas */}
+        <div
+          className="
+            relative 
+            w-36 h-20 
+            rounded-lg 
+            overflow-hidden 
+            mr-4 
+            bg-[#d8c3e8]
+            flex items-center justify-center 
+            flex-shrink-0 
+          "
+        >
+          {imagem && imagem.length > 0 ? (
             <Image
-              src="/logo-lentilha.png"
-              alt="Logo Lentilha"
+              src={imagem}
+              alt={nome}
               fill
-              className="object-contain"
-              priority
+              className="object-cover"
+              sizes="144px"
             />
+          ) : (
+            <div className="text-purple-900 opacity-50">
+              <MdSearch size={32} />
+            </div>
+          )}
+        </div>
+
+        {/* Nome e descricao */}
+        <div className="flex flex-col flex-1 min-w-0">
+          <span className="text-gray-900 font-semibold text-lg">{nome}</span>
+          <span className="text-gray-500 text-sm">Descrição: {descricao}</span>
+        </div>
+      </div>
+
+      {/* Seta de navegação */}
+      <div className="text-gray-500 text-3xl font-light">
+        &rsaquo;
+      </div>
+    </Link>
+  );
+};
+
+
+export default function PesquisaPage() {
+  // 1. GERAÇÃO DA LISTA DE RESULTADOS A PARTIR DA BASE MESTRA
+  const ALL_MOCK_RESULTS = useMemo(() => {
+    const data = MOCK_DATA || {};
+
+    return Object.entries(data).map(([id, item]) => {
+      const nome = item.nome || item.title;
+      const descricao = item.descricao;
+
+      return {
+        id: parseInt(id),
+        nome: nome || '',
+        descricao,
+        imagem: item.imagem,
+        // Adiciona um campo de busca normalizado para comparação
+        searchableText: removeAccents(`${nome} ${descricao}`).toLowerCase(),
+      };
+    });
+  }, []);
+
+  // 2. Estados para o termo de pesquisa e os resultados
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  // 3. Lógica da simulação de pesquisa
+  const handleSearch = () => {
+    const normalizedTerm = removeAccents(searchTerm.trim()).toLowerCase();
+
+    if (!normalizedTerm) {
+      setSearchResults([]);
+      setHasSearched(false);
+      return;
+    }
+
+    // Filtra a lista completa (ALL_MOCK_RESULTS) para simular a busca
+    const results = ALL_MOCK_RESULTS.filter(item =>
+      item.searchableText.includes(normalizedTerm)
+    );
+
+    setSearchResults(results);
+    setHasSearched(true);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full pt-20">
+
+      {/* --- LOGO --- */}
+      <Link
+        href="/"
+        className="relative w-[550px] h-[128px] cursor-pointer mb-8"
+      >
+        <Image
+          src="/logo-lentilha.png"
+          alt="Logo Lentilha"
+          fill
+          className="object-contain"
+          priority
+        />
+      </Link>
+
+      {/* --- BARRA DE PESQUISA --- */}
+      <div className="w-full max-w-5xl px-4">
+        <div className="relative flex items-center group">
+          <input
+            type="text"
+            placeholder="Insira aqui o nome do alimento..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="
+              w-full 
+              py-4 
+              pl-8 pr-16 
+              text-gray-700 
+              bg-[#ece0f0] 
+              rounded-full 
+              outline-none 
+              placeholder-gray-500
+              transition-all
+              focus:ring-2 focus:ring-purple-300 focus:bg-white
+              shadow-sm
+            "
+          />
+
+          <button
+            onClick={handleSearch}
+            className="absolute right-6 text-gray-600 hover:text-purple-700 transition-colors"
+            aria-label="Pesquisar alimento"
+          >
+            <MdSearch size={24} />
+          </button>
+        </div>
+      </div>
+
+      {/* --- RESULTADOS DA PESQUISA --- */}
+      <div className="w-full max-w-5xl px-4 mt-8">
+        {hasSearched && searchResults.length === 0 && (
+          <p className="text-center text-gray-500 text-lg mt-10">
+            Nenhum resultado encontrado para "{searchTerm}".
+          </p>
+        )}
+
+        {/* O GRID QUE CONTÉM OS ITENS */}
+        {searchResults.length > 0 && (
+          <div className="grid grid-cols-2 gap-4">
+            {searchResults.map((item) => (
+              <SearchResultItem
+                key={item.id}
+                nome={item.nome}
+                descricao={item.descricao}
+                id={item.id}
+                imagem={item.imagem}
+              />
+            ))}
           </div>
-          <h1 className="text-4xl font-extrabold text-gray-800 max-w-3xl" style={{ color: BRAND.primaryDark }}>
-            A solução para quantificar o verdadeiro impacto ambiental da sua alimentação!
-          </h1>
+        )}
+      </div>
 
-          <p className="text-xl font-light text-gray-600 max-w-2xl">
-            Transformamos a complexidade da Avaliação do Ciclo de Vida (ACV) em informações simples e acionáveis para o consumidor brasileiro.
-          </p>
-        </div>
+      {/* --- TEXTO DE RODAPÉ --- */}
+      <div className="text-sm text-gray-500 mt-12 mb-10">
+        <span>Não nos conhece ainda? </span>
+        <Link href="/sobre" className="text-[#448040] font-medium hover:underline">
+          Clique aqui e entenda quem somos.
+        </Link>
+      </div>
 
-        {/* 2. PILARES TÉCNICOS (3 COLUNAS) */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
-
-          <FeatureCard
-            icon={MdOutlineScience}
-            title="Rigor Metodológico"
-            description="Baseado na metodologia científica  ACV (ISO 14040/14044) para medir o impacto 'do berço ao túmulo'."
-          />
-          <FeatureCard
-            icon={MdLayers}
-            title="Análise 3D: Multidimensional"
-            description="Não olhamos apenas o CO₂e, mas sim o impacto completo:  Pegada de Carbono,  Pegada Hídrica (WF)  e  Uso da Terra (EF) ."
-          />
-          <FeatureCard
-            icon={MdPublic}
-            title="Contexto Regionalizado"
-            description="Nossos cálculos utilizam dados do consumo alimentar da  POF/IBGE, superando a lacuna de dados não adaptados ao Brasil."
-          />
-        </div>
-
-        {/* 3. CHAMADA À AÇÃO E ESTATÍSTICA CHAVE */}
-        <div className="w-full mt-4 flex flex-col items-center gap-6 p-6 rounded-xl border-2 border-[#fdec5a] bg-white shadow-xl">
-          <p className="text-lg font-semibold text-gray-700">
-            O Brasil tem uma emissão de carbono por refeição diária muito maior que a meta global.
-            <br />
-            Comece a comparar e reduzir seu impacto agora!
-          </p>
-
-          <Link href="/pesquisa">
-            <Button
-              className="h-12 px-8 text-lg font-bold flex items-center gap-2 transition-colors duration-300 hover:bg-[#60B46A]" // Hover mais claro
-              style={{ backgroundColor: BRAND.primary, color: 'white', cursor: 'pointer' }}
-              variant="default" // Usando a variante padrão para o botão principal
-            >
-              <MdArrowForward size={24} />
-              Pesquisar o impacto da minha dieta
-            </Button>
-          </Link>
-        </div>
-      </main>
-
-      {/* Rodapé - Teexto colado com o conteúdo acima */}
-      <footer className=" text-sm text-gray-500 mt-8 mb-4">
-        &copy; 2025 LENTILHA. Trabalho de Conclusão de Curso (TCC), UNIFOR.
-      </footer>
     </div>
   );
 }

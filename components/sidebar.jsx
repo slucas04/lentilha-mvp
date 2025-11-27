@@ -63,8 +63,8 @@ export default function Sidebar() {
 
       <nav className="flex flex-col items-center gap-6">
 
-        <SidebarItem icon={MdHome} label="Conhecer" href="/" />
-        <SidebarItem icon={MdSearch} label="Pesquisar" href="/pesquisa" />
+        <SidebarItem icon={MdHome} label="Conhecer" href="/sobre" />
+        <SidebarItem icon={MdSearch} label="Pesquisar" href="/" />
         <SidebarItem icon={MdAssessment} label="Meu Impacto" href="/resumo" />
       </nav>
     </aside>
