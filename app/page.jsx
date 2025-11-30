@@ -217,7 +217,7 @@ export default function PesquisaPage() {
       {/* --- TEXTO DE RODAPÉ --- */}
       <div className="text-sm text-gray-500 mt-12 mb-10">
         <span>Não nos conhece ainda? </span>
-        <Link href="/sobre" className="text-[#448040] font-medium hover:underline">
+        <Link href="/conhecer" className="text-[#448040] font-medium hover:underline">
           Clique aqui e entenda quem somos.
         </Link>
       </div>

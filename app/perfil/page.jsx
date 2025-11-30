@@ -29,7 +29,7 @@ const MOCK_USER = {
 function DetailItem({ icon: Icon, label, value }) {
     return (
         <div className="flex items-center gap-4 p-3 bg-white rounded-lg shadow-sm">
-            <Icon size={24} className="text-purple-600" />
+            <Icon size={24} className="text-green-600" />
             <div>
                 <p className="text-xs text-gray-500">{label}</p>
                 <p className="font-medium text-gray-800">{value}</p>
@@ -40,7 +40,7 @@ function DetailItem({ icon: Icon, label, value }) {
 
 export default function PerfilPage() {
     return (
-        <div className="min-h-screen p-6 bg-[#f3eef6] font-sans relative">
+        <div className="min-h-screen p-6 bg-[#f3eef6] rounded-lg font-sans relative">
 
             {/* ⬅️ NOVO COMPONENTE: ASIDE LATERAL FIXO */}
             <SecondarySidebar />
@@ -71,7 +71,7 @@ export default function PerfilPage() {
                                 <p className="text-lg font-bold">{MOCK_USER.name}</p>
                                 <p className="text-sm text-gray-500">Usuário Lentilha</p>
 
-                                <Link href="/perfil/editar" className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-purple-600 hover:underline">
+                                <Link href="/perfil/editar" className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-green-600 hover:underline">
                                     <MdEdit size={18} />
                                     Mudar foto
                                 </Link>
@@ -99,12 +99,12 @@ export default function PerfilPage() {
 
                                 <div className="space-y-4">
                                     <Link href="/perfil/editar" className="flex items-center gap-4 p-3 bg-[#e8def8] rounded-lg hover:bg-[#dfd4e6] transition-colors font-medium text-gray-800">
-                                        <MdLock size={24} className="text-purple-700" />
+                                        <MdLock size={24} className="text-green-700" />
                                         <span>Alterar Senha</span>
                                     </Link>
 
                                     <Link href="/perfil/editar" className="flex items-center gap-4 p-3 bg-[#e8def8] rounded-lg hover:bg-[#dfd4e6] transition-colors font-medium text-gray-800">
-                                        <MdEdit size={24} className="text-purple-700" />
+                                        <MdEdit size={24} className="text-green-700" />
                                         <span>Editar Perfil</span>
                                     </Link>
 
