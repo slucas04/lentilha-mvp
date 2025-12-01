@@ -80,10 +80,10 @@ export default function Home() {
             Comece a comparar e reduzir seu impacto agora!
           </p>
 
-          <Link href="/pesquisa">
+          <Link href="/">
             <Button
               className="h-12 px-8 text-lg font-bold flex items-center gap-2 transition-colors duration-300 hover:bg-[#60B46A]" // Hover mais claro
-              style={{ backgroundColor: BRAND.primary, color: 'white' }}
+              style={{ backgroundColor: BRAND.primary, color: 'white', cursor: 'pointer' }}
               variant="default" // Usando a variante padrão para o botão principal
             >
               <MdArrowForward size={24} />

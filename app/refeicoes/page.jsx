@@ -486,6 +486,7 @@ function MealSection({ meal }) {
             onClick={() => setOpen((s) => !s)}
             className="w-9 h-9 flex items-center justify-center rounded-md bg-white/90 border border-gray-200 shadow-sm mr-2"
             animate={{ rotate: open ? 90 : 0 }}
+            style={{cursor: 'pointer'}}
             transition={{ duration: 0.18, ease: "easeInOut" }}
           >
             <svg
